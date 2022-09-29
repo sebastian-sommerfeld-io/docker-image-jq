@@ -130,14 +130,7 @@ jobs:
           tags: sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }}
 
       - name: Run container and print versions of installed packages
-        run: |
-          # docker pull sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }}
-
-          docker run -i sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }} npm list -g --depth=0
-
-          docker run -i sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }} antora --version
-          docker run -i sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }} asciidoctor --version
-          docker run -i sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }} gulp --version
+        run: docker run -i sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }} jq --version
 
       - name: Run Snyk to check Docker image for vulnerabilities
         continue-on-error: true
