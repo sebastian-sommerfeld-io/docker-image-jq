@@ -1,7 +1,7 @@
 ---
 name: docker-images-jq
 title: Docker Image jq
-version: feat__pipeline-cleanup
+version: main
 start_page: ROOT:index.adoc
 nav:
   - modules/ROOT/nav.adoc
