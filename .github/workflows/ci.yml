@@ -116,8 +116,8 @@ jobs:
 
       - name: Run Snyk to check Docker image for vulnerabilities
         continue-on-error: true
-        if: ${{ github.actor != 'dependabot[bot]' }}
         uses: snyk/actions/docker@master
+        if: ${{ github.actor != 'dependabot[bot]' }}
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
