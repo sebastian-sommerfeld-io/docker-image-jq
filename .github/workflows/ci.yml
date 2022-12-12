@@ -3,9 +3,13 @@ name: CI
 
 on:
   push:
-    branches: [ "main", "feat/*", "release/*" ]
+    # branches: [ "main", "feat/*", "release/*" ]
+    branches-ignore:
+      - dependabot/**
   pull_request:
-    branches: [ "main", "feat/*", "release/*" ]
+    # branches: [ "main", "feat/*", "release/*" ]
+    branches-ignore:
+      - dependabot/**
   schedule:
     - cron: '0 2 * * 1' # https://crontab.guru/#0_2_*_*_1
 
@@ -94,6 +98,7 @@ jobs:
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
+        if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -103,7 +108,7 @@ jobs:
         with:
           context: ./src/main
           platforms: linux/amd64
-          push: true
+          push: ${{ github.actor != 'dependabot[bot]' }}
           tags: sommerfeldio/jq:${{ steps.vars.outputs.DOCKER_TAG }}
 
       - name: Run container and print versions of installed packages
@@ -111,6 +116,7 @@ jobs:
 
       - name: Run Snyk to check Docker image for vulnerabilities
         continue-on-error: true
+        if: ${{ github.actor != 'dependabot[bot]' }}
         uses: snyk/actions/docker@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
